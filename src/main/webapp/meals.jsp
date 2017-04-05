@@ -22,6 +22,19 @@
     <a href="meals?action=create">Add Meal</a>
     <hr>
     <table border="1" cellpadding="8" cellspacing="0">
+        <p>Filter by:</p>
+        <jsp:useBean id="filter" class="ru.javawebinar.topjava.filters.MealsFilter" scope="request"/>
+        <form method="post" action="meals">
+            <label for="dateFrom">From date</label>
+            <input type="date" value="${filter.dateFrom}" id="dateFrom" name="dateFrom">
+            <label for="dateTo">To date</label>
+            <input type="date" value="${filter.dateTo}" id="dateTo" name="dateTo">
+            <label for="timeFrom">From time</label>
+            <input type="time" value="${filter.timeFrom}" id="timeFrom" name="timeFrom">
+            <label for="timeTo">To time</label>
+            <input type="time" value="${filter.timeTo}" id="timeTo" name="timeTo">
+            <button type="submit" name="filtered">Apply</button>
+        </form>
         <thead>
         <tr>
             <th>Date</th>
@@ -32,10 +45,10 @@
         </tr>
         </thead>
         <c:forEach items="${meals}" var="meal">
-            <jsp:useBean id="meal" scope="page" type="ru.javawebinar.topjava.model.MealWithExceed"/>
+            <jsp:useBean id="meal" scope="page" type="ru.javawebinar.topjava.to.MealWithExceed"/>
             <tr class="${meal.exceed ? 'exceeded' : 'normal'}">
                 <td>
-                        <%--${meal.dateTime.toLocalDate()} ${meal.dateTime.toLocalTime()}--%>
+                        <%--${meal.filter.toLocalDate()} ${meal.filter.toLocalTime()}--%>
                         <%--<%=TimeUtil.toString(meal.getDateTime())%>--%>
                         ${fn:formatDateTime(meal.dateTime)}
                 </td>
