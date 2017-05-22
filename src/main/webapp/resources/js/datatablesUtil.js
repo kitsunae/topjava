@@ -8,8 +8,28 @@ function makeEditable() {
         return false;
     });
 
+    $('#filter-form').submit(function () {
+        filter();
+        return false;
+    });
+
     $(document).ajaxError(function (event, jqXHR, options, jsExc) {
         failNoty(event, jqXHR, options, jsExc);
+    });
+}
+
+function filter(){
+    $.ajax({
+        url: ajaxUrl+'filter',
+        type: 'GET',
+        data: $('#filter-form').serialize(),
+        success: function (data) {
+            datatableApi.clear();
+            $.each(data, function (key, item) {
+                datatableApi.row.add(item);
+            });
+            datatableApi.draw();
+        }
     });
 }
 
